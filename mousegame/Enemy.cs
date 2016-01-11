@@ -22,13 +22,13 @@ namespace mousegame
             get { return enemyTexture.Height; }
         }
 
-        public void Initialize(Texture2D inTexture, Vector2 inPosition)
+        public void Initialize(Texture2D inTexture, Vector2 inPosition, int speed)
         {
             Random random = new Random();
             enemyTexture = inTexture;
             position = inPosition;
             isActive = true;
-            enemyMoveSpeed = random.Next(200, 300);
+            enemyMoveSpeed = random.Next(speed, speed + 100);
         }
 
         public void Update(GameTime gameTime, Player inPlayer)
