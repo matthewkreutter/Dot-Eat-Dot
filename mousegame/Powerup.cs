@@ -6,9 +6,9 @@ namespace mousegame
 {
     class Powerup
     {
-        public Texture2D powerupTexture;
-        public Vector2 position;
-        public bool isActive;
+        private Texture2D powerupTexture;
+        private Vector2 position;
+        private bool isActive;
 
         public int Width
         {
@@ -19,6 +19,11 @@ namespace mousegame
         {
             get { return powerupTexture.Height; }
         }
+
+        public Texture2D getTexture { get { return powerupTexture; } }
+        public Vector2 getPosition { get { return position; } }
+        public bool getActive { get { return isActive; } }
+        public void setActive(bool inActive) { isActive = inActive; }
 
         public void Initialize(Texture2D inTexture, Vector2 inPosition)
         {

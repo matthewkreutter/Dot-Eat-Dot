@@ -35,4 +35,5 @@ C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\W
 C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\redDot.png
 C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\gameFont.xnb
 C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\orangeSquare.png
-C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\pause.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\mousegameSS.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\mouse.png

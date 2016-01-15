@@ -7,21 +7,6 @@ using System.Collections.Generic;
 
 namespace mousegame
 {
-    /*TO-DO:
-        - Randomize enemy attributes (speed, spawn time, spawn position)
-            - Make enemies all spawn far away from Player
-        - Powerups:
-            - Alter time
-            - Ice
-            - (Knife) explosion
-            - Invulnerable
-        - Randomize powerup attributes (spawn time, spawn position)
-            - Make powerups all spawn far away from Player
-        - HUD
-        - Menu
-    */
-
-
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
@@ -30,58 +15,70 @@ namespace mousegame
 
         private bool devMode = false;
         private int score;
-        Random random;
+        private Random random;
         private string gameState;
-        Texture2D pauseTexture;
-        int elapsedTime;
-        int level;
+        private Texture2D mouseTexture;
+        private string pauseText;
+        private string normalText;
+        private Color normalTextColor;
+        private string bombText;
+        private Color bombTextColor;
+        private bool bombMode;
+        private int elapsedTime;
+        private int level;
 
         private Player player;
         private MouseState mouseState;
-        Texture2D playerTexture;
+        private Texture2D playerTexture;
 
-        Texture2D enemyTexture;
-        List<Enemy> enemies;
-        TimeSpan enemySpawnTime;
-        TimeSpan prevEnemySpawnTime;
-        int spawnLower, spawnUpper;
-        int enemySpeed;
+        private Texture2D enemyTexture;
+        private List<Enemy> enemies;
+        private TimeSpan enemySpawnTime;
+        private TimeSpan prevEnemySpawnTime;
+        private int spawnLower, spawnUpper;
+        private int enemySpeed;
 
-        Texture2D slowTimeTexture;
-        Texture2D freezeTexture;
-        Texture2D explosionTexture;
-        Texture2D invulnerableTexture;
-        Texture2D slowTimeTexturePlayer;
-        Texture2D freezeTexturePlayer;
-        Texture2D explosionTexturePlayer;
-        Texture2D invulnerableTexturePlayer;
-        int slowTimeDuration;
-        int freezeDuration;
-        int explosionDuration;
-        int invulnerableDuration;
+        private Texture2D slowTimeTexture;
+        private Texture2D freezeTexture;
+        private Texture2D explosionTexture;
+        private Texture2D invulnerableTexture;
+        private Texture2D slowTimeTexturePlayer;
+        private Texture2D freezeTexturePlayer;
+        private Texture2D explosionTexturePlayer;
+        private Texture2D invulnerableTexturePlayer;
+        private int slowTimeDuration;
+        private int freezeDuration;
+        private int explosionDuration;
+        private int invulnerableDuration;
         /*TimeSpan prevSlowTimeSpan;
         TimeSpan prevFreezeSpan;
         TimeSpan prevExplosionSpan;
         TimeSpan prevInvulnerableSpan;*/
-        bool slowTime = false;
-        bool freeze = false;
-        bool invulnerable = false;
-        bool explosion = false;
-        List<Powerup> powerups;
-        TimeSpan powerupSpawnTime;
-        TimeSpan prevPowerupSpawnTime;
+        private bool slowTime = false;
+        private bool freeze = false;
+        private bool invulnerable = false;
+        //private bool explosion = false;
+        private List<Powerup> powerups;
+        private TimeSpan powerupSpawnTime;
+        private TimeSpan prevPowerupSpawnTime;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width-500;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height-200;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/2;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height/2;
         }
 
         protected override void Initialize()
         {
             gameState = "paused";
+            pauseText = "You are a navy blue dot, controlled by the mouse.";
+            normalText = "NORMAL MODE:\nEvil red dots spawn and charge at you until you die.\nYou have Slow Time (black dot), Freeze (cyan dot),\nExplosion (orange dot) and Invulnerability (green dot) at your disposal.";
+            bombText = "BOMB MODE:\nRed dots spawn and move much faster, but die when they collide with each other.";
+            normalTextColor = Color.Black;
+            bombTextColor = Color.Black;
+            bombMode = false;
             random = new Random();
             score = 0;
             elapsedTime = 0;
@@ -123,7 +120,7 @@ namespace mousegame
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             font = Content.Load<SpriteFont>("Graphics\\gameFont");
-            pauseTexture = Content.Load<Texture2D>("Graphics\\pause");
+            mouseTexture = Content.Load<Texture2D>("Graphics\\mouse");
 
             playerTexture = Content.Load<Texture2D>("Graphics\\blueDot");
 
@@ -146,11 +143,35 @@ namespace mousegame
 
         protected override void Update(GameTime gameTime)
         {
-            if(gameState == "paused")
+            UpdatePlayer(gameTime);
+            if (gameState == "paused")
             {
-                if (Mouse.GetState().LeftButton == ButtonState.Pressed)
+                if(mouseState.X >= 400 && mouseState.X <= 1300 && mouseState.Y >= 435 && mouseState.Y <= 575)
                 {
-                    gameState = "game";
+                    normalTextColor = Color.Red;
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        gameState = "game";
+                        bombMode = false;
+                    }
+                }
+                else if (mouseState.X >= 400 && mouseState.X <= 1445 && mouseState.Y >= 635 && mouseState.Y <= 695)
+                {
+                    bombTextColor = Color.Red;
+                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        gameState = "game";
+                        bombMode = true;
+                        spawnLower = 2;
+                        spawnUpper = 3;
+                        enemySpawnTime = TimeSpan.FromSeconds(random.Next(spawnLower, spawnUpper));
+                        enemySpeed += 300;
+                    }
+                }
+                else
+                {
+                    normalTextColor = Color.Black;
+                    bombTextColor = Color.Black;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
@@ -173,10 +194,13 @@ namespace mousegame
                 {
                     harder();
                 }
-                UpdatePlayer(gameTime);
                 UpdateEnemies(gameTime);
                 UpdatePowerups(gameTime);
                 UpdateCollisions();
+                if(bombMode == true)
+                {
+                    UpdateEnemyCollisions();
+                }
                 base.Update(gameTime);
             }
         }
@@ -185,20 +209,23 @@ namespace mousegame
         {
             GraphicsDevice.Clear(Color.BlanchedAlmond);
             spriteBatch.Begin();
-            if(gameState == "paused")
+            spriteBatch.DrawString(font, "(X, Y):" + mouseState.X + ", " + mouseState.Y, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 100), Color.Black);
+            if (player.getActive == true)
             {
-                spriteBatch.Draw(pauseTexture, new Vector2(50,-60), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                player.Draw(spriteBatch);
+            }
+            if (gameState == "paused")
+            {
+                spriteBatch.Draw(mouseTexture, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 2 - mouseTexture.Width / 2, 100), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, pauseText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, 350), Color.Black);
+                spriteBatch.DrawString(font, normalText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, 435), normalTextColor);
+                spriteBatch.DrawString(font, bombText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, 635), bombTextColor);
             }
             if (gameState == "game")
             {
-                if (player.isActive == true)
-                {
-                    player.Draw(spriteBatch);
-                }
-
                 foreach (Enemy enemy in enemies.ToArray())
                 {
-                    if (enemy.isActive)
+                    if (enemy.getActive)
                     {
                         enemy.Draw(spriteBatch);
                     }
@@ -206,7 +233,7 @@ namespace mousegame
 
                 foreach (Powerup powerup in powerups.ToArray())
                 {
-                    if (powerup.isActive)
+                    if (powerup.getActive)
                     {
                         powerup.Draw(spriteBatch);
                     }
@@ -215,8 +242,8 @@ namespace mousegame
                 spriteBatch.DrawString(font, freezeDuration.ToString(), new Vector2(120, GraphicsDevice.Viewport.TitleSafeArea.Height - 50), Color.Black);
                 spriteBatch.DrawString(font, invulnerableDuration.ToString(), new Vector2(220, GraphicsDevice.Viewport.TitleSafeArea.Height - 50), Color.Black);
                 spriteBatch.DrawString(font, "Score: " + score.ToString(), new Vector2(40, 20), Color.Black);
-                spriteBatch.DrawString(font, "Elapsed Time: " + elapsedTime.ToString(), new Vector2(820, 20), Color.Black);
-                spriteBatch.DrawString(font, "Level: " + level.ToString(), new Vector2(820, 60), Color.Black);
+                spriteBatch.DrawString(font, "Elapsed Time: " + elapsedTime.ToString(), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 20), Color.Black);
+                spriteBatch.DrawString(font, "Level: " + level.ToString(), new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 60), Color.Black);
             }
             spriteBatch.End();
             base.Draw(gameTime);
@@ -226,7 +253,7 @@ namespace mousegame
         {
             mouseState = Mouse.GetState();
             Vector2 mousePosition = new Vector2(mouseState.X, mouseState.Y);
-            player.position = mousePosition;
+            player.setPosition(mousePosition);
         }
 
         private void AddEnemy()
@@ -253,7 +280,7 @@ namespace mousegame
             enemy.Initialize(enemyTexture, position, enemySpeed);
             if(slowTime == true)
             {
-                enemy.enemyMoveSpeed /= 2;
+                enemy.setSpeed(enemy.getSpeed / 2);
             }
             enemies.Add(enemy);
         }
@@ -271,7 +298,7 @@ namespace mousegame
                 {
                     enemy.Update(gameTime, player);
                 }
-                if (enemy.isActive == false)
+                if (enemy.getActive == false)
                 {
                     enemies.Remove(enemy);
                     score += 100;
@@ -312,7 +339,7 @@ namespace mousegame
             }
             if (slowTimeDuration == 0 && freezeDuration == 0 && explosionDuration == 0 && invulnerableDuration == 0)
             {
-                player.playerTexture = playerTexture;
+                player.setTexture(playerTexture);
             }
             if(slowTimeDuration != 0)
             {
@@ -340,7 +367,7 @@ namespace mousegame
             }
             foreach (Powerup powerup in powerups.ToArray())
             {
-                if (powerup.isActive == false)
+                if (powerup.getActive == false)
                 {
                     powerups.Remove(powerup);
                 }
@@ -351,13 +378,13 @@ namespace mousegame
         {
             Rectangle rectangle1;
             Rectangle rectangle2;
-            rectangle1 = new Rectangle((int)player.position.X, (int)player.position.Y, player.Width, player.Height);
+            rectangle1 = new Rectangle((int)player.getPosition.X, (int)player.getPosition.Y, player.Width, player.Height);
             foreach (Enemy enemy in enemies.ToArray())
             {
-                rectangle2 = new Rectangle((int)enemy.position.X, (int)enemy.position.Y, enemy.Width, enemy.Height);
+                rectangle2 = new Rectangle((int)enemy.getPosition.X, (int)enemy.getPosition.Y, enemy.Width, enemy.Height);
                 if(rectangle1.Intersects(rectangle2))       
                 {
-                    enemy.isActive = false;
+                    enemy.setActive(false);
                     if (devMode == false && invulnerable == false && freeze == false)
                     {
                         reset();
@@ -366,39 +393,58 @@ namespace mousegame
             }
             foreach (Powerup powerup in powerups.ToArray())
             {
-                rectangle2 = new Rectangle((int)powerup.position.X, (int)powerup.position.Y, powerup.Width, powerup.Height);
+                rectangle2 = new Rectangle((int)powerup.getPosition.X, (int)powerup.getPosition.Y, powerup.Width, powerup.Height);
                 if (rectangle1.Intersects(rectangle2))
                 {
-                    if(powerup.powerupTexture == slowTimeTexture)
+                    if(powerup.getTexture == slowTimeTexture)
                     {
                         slowTimeDuration = 200;
                         slowTime = true;
-                        player.playerTexture = slowTimeTexturePlayer;
+                        player.setTexture(slowTimeTexturePlayer);
                         foreach (Enemy enemy in enemies.ToArray())
                         {
-                            enemy.enemyMoveSpeed /= 2;
+                            enemy.setSpeed(enemy.getSpeed / 2);
                         }
                     }
-                    else if (powerup.powerupTexture == freezeTexture)
+                    else if (powerup.getTexture == freezeTexture)
                     {
                         freezeDuration = 200;
                         freeze = true;
-                        player.playerTexture = freezeTexturePlayer;
+                        player.setTexture(freezeTexturePlayer);
                     }
-                    else if (powerup.powerupTexture == explosionTexture)
+                    else if (powerup.getTexture == explosionTexture)
                     {
                         foreach (Enemy enemy in enemies.ToArray())
                         {
-                            enemy.isActive = false;
+                            enemy.setActive(false);
                         }
                     }
-                    else if (powerup.powerupTexture == invulnerableTexture)
+                    else if (powerup.getTexture == invulnerableTexture)
                     {
                         invulnerableDuration = 200;
                         invulnerable = true;
-                        player.playerTexture = invulnerableTexturePlayer;
+                        player.setTexture(invulnerableTexturePlayer);
                     }
-                    powerup.isActive = false;
+                    powerup.setActive(false);
+                }
+            }
+        }
+
+        private void UpdateEnemyCollisions()
+        {
+            Rectangle rectangle1;
+            Rectangle rectangle2;
+            foreach (Enemy enemy1 in enemies.ToArray())
+            {
+                foreach (Enemy enemy2 in enemies.ToArray())
+                {
+                    rectangle1 = new Rectangle((int)enemy1.getPosition.X, (int)enemy1.getPosition.Y, enemy1.Width, enemy1.Height);
+                    rectangle2 = new Rectangle((int)enemy2.getPosition.X, (int)enemy2.getPosition.Y, enemy2.Width, enemy2.Height);
+                    if (!rectangle1.Equals(rectangle2) && rectangle1.Intersects(rectangle2))
+                    {
+                        enemy1.setActive(false);
+                        enemy2.setActive(false);
+                    }
                 }
             }
         }
@@ -412,6 +458,13 @@ namespace mousegame
             slowTimeDuration = 0;
             freezeDuration = 0;
             invulnerableDuration = 0;
+            level = 0;
+            elapsedTime = 0;
+            player.setTexture(playerTexture);
+            spawnLower = 4;
+            spawnUpper = 6;
+            enemySpawnTime = TimeSpan.FromSeconds(random.Next(spawnLower, spawnUpper));
+            enemySpeed = 200;
         }
 
         private void harder()
@@ -425,7 +478,7 @@ namespace mousegame
                 spawnUpper--;
             }
             enemySpawnTime = TimeSpan.FromSeconds(random.Next(spawnLower, spawnUpper));
-            enemySpeed += 50;
+            enemySpeed += 25;
             level++;
         }
     }

@@ -6,10 +6,10 @@ namespace mousegame
 {
     class Enemy
     {
-        public Texture2D enemyTexture;
-        public Vector2 position;
-        public bool isActive;
-        public float enemyMoveSpeed;
+        private Texture2D enemyTexture;
+        private Vector2 position;
+        private bool isActive;
+        private float enemyMoveSpeed;
         //public int health;
 
         public int Width
@@ -21,6 +21,13 @@ namespace mousegame
         {
             get { return enemyTexture.Height; }
         }
+
+        public Texture2D getTexture { get { return enemyTexture; } }
+        public Vector2 getPosition { get { return position; } }
+        public bool getActive { get { return isActive; } }
+        public void setActive(bool inActive) { isActive = inActive; }
+        public float getSpeed {  get { return enemyMoveSpeed; } }
+        public void setSpeed(float inSpeed) { enemyMoveSpeed = inSpeed; }
 
         public void Initialize(Texture2D inTexture, Vector2 inPosition, int speed)
         {
@@ -34,7 +41,7 @@ namespace mousegame
         public void Update(GameTime gameTime, Player inPlayer)
         {
             float elapsedTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 Move_Towards = -(position - inPlayer.position);
+            Vector2 Move_Towards = -(position - inPlayer.getPosition);
             Move_Towards.Normalize();
             position = position + (Move_Towards * enemyMoveSpeed * elapsedTime);
         }
