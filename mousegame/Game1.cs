@@ -17,6 +17,7 @@ namespace mousegame
         private int score;
         private Random random;
         private string gameState;
+        private string choiceState;
         private Texture2D mouseTexture;
         private string pauseText;
         private string normalText;
@@ -26,6 +27,10 @@ namespace mousegame
         private bool bombMode;
         private int elapsedTime;
         private int level;
+
+        private KeyboardState currentKeyboardState;
+        private KeyboardState previousKeyboardState;
+        private KeyboardState clearKeyboardState;
 
         private Player player;
         private MouseState mouseState;
@@ -75,7 +80,8 @@ namespace mousegame
         protected override void Initialize()
         {
             gameState = "paused";
-            pauseText = "You are a navy blue dot, controlled by the mouse.";
+            choiceState = "normal";
+            pauseText = "You are a navy blue dot, controlled by the mouse. Select a mode using the arrow keys and then press enter to play.";
             normalText = "NORMAL MODE:\nEvil red dots spawn and charge at you until you die.\nYou have Slow Time (black dot), Freeze (cyan dot),\nExplosion (orange dot) and Invulnerability (green dot) at your disposal.";
             bombText = "BOMB MODE:\nRed dots spawn and move much faster, but die when they collide with each other.";
             normalTextColor = Color.Black;
@@ -148,19 +154,30 @@ namespace mousegame
             UpdatePlayer(gameTime);
             if (gameState == "paused")
             {
-                if(mouseState.X >= 770 && mouseState.X <= 1700 && mouseState.Y >= 435 && mouseState.Y <= 575)
+                currentKeyboardState = Keyboard.GetState();
+                if (choiceState == "normal")
                 {
+                    bombTextColor = Color.Black;
                     normalTextColor = Color.Red;
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    if ((currentKeyboardState.IsKeyDown(Keys.Down) && previousKeyboardState.IsKeyUp(Keys.Down)) || (currentKeyboardState.IsKeyDown(Keys.Up) && previousKeyboardState.IsKeyUp(Keys.Up)))
+                    {
+                        choiceState = "bomb";
+                    }
+                    if(currentKeyboardState.IsKeyDown(Keys.Enter))
                     {
                         gameState = "game";
                         bombMode = false;
                     }
                 }
-                else if (mouseState.X >= 770 && mouseState.X <= 1830 && mouseState.Y >= 635 && mouseState.Y <= 695)
+                else if (choiceState == "bomb")
                 {
                     bombTextColor = Color.Red;
-                    if (mouseState.LeftButton == ButtonState.Pressed)
+                    normalTextColor = Color.Black;
+                    if ((currentKeyboardState.IsKeyDown(Keys.Down) && previousKeyboardState.IsKeyUp(Keys.Down)) || (currentKeyboardState.IsKeyDown(Keys.Up) && previousKeyboardState.IsKeyUp(Keys.Up)))
+                    {
+                        choiceState = "normal";
+                    }
+                    if (currentKeyboardState.IsKeyDown(Keys.Enter))
                     {
                         gameState = "game";
                         bombMode = true;
@@ -175,16 +192,23 @@ namespace mousegame
                     normalTextColor = Color.Black;
                     bombTextColor = Color.Black;
                 }
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
                 {
                     Environment.Exit(0);
                 }
+                previousKeyboardState = currentKeyboardState;
             }
             if (gameState == "game")
             {
-                if (Keyboard.GetState().IsKeyDown(Keys.D))
+                currentKeyboardState = Keyboard.GetState();
+                if (currentKeyboardState.IsKeyDown(Keys.D))
                 {
                     devMode = true;
+                }
+                if (currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape))
+                {
+                    gameState = "paused";
+                    reset();
                 }
                 if (devMode == true)
                 {
@@ -203,6 +227,7 @@ namespace mousegame
                 {
                     UpdateEnemyCollisions();
                 }
+                previousKeyboardState = currentKeyboardState;
                 base.Update(gameTime);
             }
         }
@@ -211,21 +236,25 @@ namespace mousegame
         {
             GraphicsDevice.Clear(Color.BlanchedAlmond);
             spriteBatch.Begin();
-            spriteBatch.DrawString(font, "(X, Y):" + mouseState.X + ", " + mouseState.Y, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 100), Color.Black);
-            spriteBatch.DrawString(font, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + " " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 200), Color.Black);
-            if (player.getActive == true)
+            if(devMode == true)
             {
-                player.Draw(spriteBatch);
+                spriteBatch.DrawString(font, "(X, Y):" + mouseState.X + ", " + mouseState.Y, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 100), Color.Black);
+                spriteBatch.DrawString(font, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + " " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 200), Color.Black);
             }
             if (gameState == "paused")
-            {
-                spriteBatch.Draw(mouseTexture, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 2 - mouseTexture.Width / 2, 100), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-                spriteBatch.DrawString(font, pauseText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, 350), Color.Black);
-                spriteBatch.DrawString(font, normalText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, 435), normalTextColor);
-                spriteBatch.DrawString(font, bombText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, 635), bombTextColor);
+            {//FIX RESOLUTION DEPENDENCY
+                //spriteBatch.Draw(mouseTexture, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 2 - mouseTexture.Width / 2, GraphicsDevice.Viewport.TitleSafeArea.Height / 8), null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(font, pauseText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, GraphicsDevice.Viewport.TitleSafeArea.Height / 4), Color.Black);
+                spriteBatch.DrawString(font, normalText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, GraphicsDevice.Viewport.TitleSafeArea.Height / 3), normalTextColor);
+                spriteBatch.DrawString(font, bombText, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width / 4, GraphicsDevice.Viewport.TitleSafeArea.Height / 2), bombTextColor);
             }
             if (gameState == "game")
             {
+                if (player.getActive == true)
+                {
+                    player.Draw(spriteBatch);
+                }
+
                 foreach (Enemy enemy in enemies.ToArray())
                 {
                     if (enemy.getActive)
