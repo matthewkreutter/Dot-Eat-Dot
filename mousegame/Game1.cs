@@ -212,6 +212,7 @@ namespace mousegame
             GraphicsDevice.Clear(Color.BlanchedAlmond);
             spriteBatch.Begin();
             spriteBatch.DrawString(font, "(X, Y):" + mouseState.X + ", " + mouseState.Y, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 100), Color.Black);
+            spriteBatch.DrawString(font, GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width + " " + GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height, new Vector2(GraphicsDevice.Viewport.TitleSafeArea.Width - 300, 200), Color.Black);
             if (player.getActive == true)
             {
                 player.Draw(spriteBatch);
