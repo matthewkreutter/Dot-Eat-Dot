@@ -66,8 +66,10 @@ namespace mousegame
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width/2;
-            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height/2;
+            graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //graphics.IsFullScreen = true;
+            graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -146,7 +148,7 @@ namespace mousegame
             UpdatePlayer(gameTime);
             if (gameState == "paused")
             {
-                if(mouseState.X >= 400 && mouseState.X <= 1300 && mouseState.Y >= 435 && mouseState.Y <= 575)
+                if(mouseState.X >= 770 && mouseState.X <= 1700 && mouseState.Y >= 435 && mouseState.Y <= 575)
                 {
                     normalTextColor = Color.Red;
                     if (mouseState.LeftButton == ButtonState.Pressed)
@@ -155,7 +157,7 @@ namespace mousegame
                         bombMode = false;
                     }
                 }
-                else if (mouseState.X >= 400 && mouseState.X <= 1445 && mouseState.Y >= 635 && mouseState.Y <= 695)
+                else if (mouseState.X >= 770 && mouseState.X <= 1830 && mouseState.Y >= 635 && mouseState.Y <= 695)
                 {
                     bombTextColor = Color.Red;
                     if (mouseState.LeftButton == ButtonState.Pressed)

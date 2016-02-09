@@ -37,3 +37,46 @@ C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\W
 C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\orangeSquare.png
 C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\mousegameSS.png
 C:\Users\Matthew\Documents\Visual Studio 2015\Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\mouse.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\obj\x86\Debug\mousegame.exe
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\obj\x86\Debug\mousegame.pdb
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\blackDot.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\blackUp.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\blueDot.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\cyanDot.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\cyanUp.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\greenDot.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\greenUp.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\mouse.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\mousegameSS.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\orangeDot.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\orangeSquare.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\orangeUp.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\redDot.png
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\Content\Graphics\gameFont.xnb
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\mousegame.exe
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\mousegame.pdb
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\MonoGame.Framework.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.MediaFoundation.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.XAudio2.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.Direct3D11.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.DXGI.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.Direct2D1.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.XInput.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.RawInput.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.Direct3D9.dll
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\MonoGame.Framework.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.MediaFoundation.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.XAudio2.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.Direct3D11.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.DXGI.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.Direct2D1.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.XInput.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.RawInput.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\SharpDX.Direct3D9.xml
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\obj\x86\Debug\mousegame.csprojResolveAssemblyReference.cache
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\mousegame.exe.manifest
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\bin\Windows\Debug\mousegame.application
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\obj\x86\Debug\mousegame.exe.manifest
+C:\Users\Matthew\Documents\Visual Studio 2015\Projects\Independent Projects\mousegame\mousegame\obj\x86\Debug\mousegame.application
