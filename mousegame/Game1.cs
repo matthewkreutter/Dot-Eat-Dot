@@ -73,7 +73,7 @@ namespace mousegame
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.ApplyChanges();
         }
 
